@@ -20,8 +20,8 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.fromLTRB(50, 200, 50, 50),
               child: Container(
                 child: const Text(
-                  "Ola Enzo",
-                  style: TextStyle(fontSize: 50),
+                  "Olá Enzo!",
+                  style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
@@ -45,7 +45,8 @@ class _HomePageState extends State<HomePage> {
                           style: TextStyle(color: Colors.white, fontSize: 30),
                         ))),
                     style: ElevatedButton.styleFrom(
-                        primary: Colors.green, shape: const CircleBorder()),
+                        primary: Theme.of(context).primaryColor,
+                        shape: const CircleBorder()),
                   ),
                 ),
               ),

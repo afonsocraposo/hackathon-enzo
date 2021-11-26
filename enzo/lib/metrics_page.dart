@@ -1,5 +1,8 @@
+import 'package:enzo/check_page.dart';
 import 'package:enzo/utils/deviceController.dart';
 import 'package:enzo/utils/shared_pref.dart';
+import 'package:enzo/utils/utils.dart';
+import 'package:enzo/warning_page.dart';
 import 'package:flutter/material.dart';
 
 class Metrics extends StatefulWidget {
@@ -10,9 +13,9 @@ class Metrics extends StatefulWidget {
 }
 
 class _MetricsState extends State<Metrics> {
-  String temperatura = "37";
-  String spo2 = "20";
-  String bpm = "56";
+  String temperatura = "--";
+  String spo2 = "--";
+  String bpm = "--";
   double maxTemp = -1;
   DeviceController? controller;
 
@@ -23,7 +26,8 @@ class _MetricsState extends State<Metrics> {
   }
 
   initDevice() async {
-    final address = await SharedPref.read("ecovig");
+    //final address = await SharedPref.read("ecovig");
+    final address = "24:6F:28:1A:6B:92";
     controller = DeviceController(address);
     bool connected = false;
     while (!connected) {
@@ -39,15 +43,31 @@ class _MetricsState extends State<Metrics> {
         spo2 = "${data.saturation}";
         bpm = "${data.heartRate}";
       });
-      controller!.dispose();
-      if (data.confidence! > 90 && data.status! > 2) {
-        submitData(temperatura, spo2, bpm);
+      if (data.confidence! > 90 && data.saturation! > 0 && data.status! > 2) {
+        controller!.dispose();
+        submitData(temperatura, spo2, bpm, data.confidence!);
       }
     });
   }
 
-  void submitData(String temperatura, String spo2, String bpm) async {
-    print("$temperatura $spo2 $bpm");
+  void submitData(
+      String temperatura, String spo2, String bpm, int confidence) async {
+    final result = await sendecovig(double.tryParse(temperatura) ?? -1,
+        int.tryParse(spo2) ?? -1, int.tryParse(bpm) ?? -1, confidence);
+    if (result) {
+      await Future.delayed(const Duration(seconds: 3));
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => CheckPage(),
+        ),
+      );
+    } else {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => WarningPage(),
+        ),
+      );
+    }
   }
 
   @override
@@ -62,7 +82,7 @@ class _MetricsState extends State<Metrics> {
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
               child: Container(
                 child: Text(
-                  temperatura+"ºC" + " 🌡️",
+                  temperatura + "ºC" + " 🌡️",
                   style: TextStyle(color: Colors.black, fontSize: 30),
                 ),
               ),
@@ -84,7 +104,7 @@ class _MetricsState extends State<Metrics> {
             const Padding(
               padding: EdgeInsets.all(20.0),
               child: Text(
-                "SPO2"  ,
+                "SPO2",
                 style: TextStyle(fontSize: 20),
               ),
             ),

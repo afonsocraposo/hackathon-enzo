@@ -22,6 +22,9 @@ class _WarningPageState extends State<WarningPage> {
         backgroundColor: Colors.red,
         textColor: Colors.white,
         fontSize: 20.0);
+    Future.delayed(Duration(seconds: 3)).then((_) {
+      Navigator.of(context).pop();
+    });
   }
 
   @override

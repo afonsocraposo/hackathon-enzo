@@ -1,4 +1,5 @@
 import 'package:enzo/metrics_page.dart';
+import 'package:enzo/workout.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -21,8 +22,11 @@ class _CheckPageState extends State<CheckPage> {
         timeInSecForIosWeb: 1,
         backgroundColor: Colors.green,
         textColor: Colors.white,
-        fontSize: 20.0
-    );
+        fontSize: 20.0);
+    Future.delayed(Duration(seconds: 3)).then((_) {
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const Workout()));
+    });
   }
 
   @override
@@ -53,8 +57,6 @@ class _CheckPageState extends State<CheckPage> {
                 ),
               ),
             ),
-
-
           ],
         ),
       ),

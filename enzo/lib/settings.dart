@@ -16,12 +16,6 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Definições",
-        ),
-        centerTitle: true,
-      ),
       body: Stack(
         children: [
           GestureDetector(

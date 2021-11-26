@@ -9,6 +9,7 @@ import 'package:location/location.dart';
 import 'package:bluetooth_enable/bluetooth_enable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:scientisst_sense/scientisst_sense.dart';
 
 class BluetoothSearch extends StatefulWidget {
   const BluetoothSearch(this.onAdd, {Key? key}) : super(key: key);
@@ -154,7 +155,7 @@ class _BluetoothSearchState extends State<BluetoothSearch> {
                       ),
                       const SizedBox(width: 32),
                       SpinKitWave(
-                        color: Theme.of(context).colorScheme.primary,
+                        color: Theme.of(context).colorScheme.secondary,
                         size: 28,
                       ),
                     ],
