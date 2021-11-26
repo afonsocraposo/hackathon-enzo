@@ -1,5 +1,6 @@
 import 'package:enzo/utils/deviceController.dart';
 import 'package:enzo/utils/shared_pref.dart';
+import 'package:enzo/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class Metrics extends StatefulWidget {
@@ -10,9 +11,9 @@ class Metrics extends StatefulWidget {
 }
 
 class _MetricsState extends State<Metrics> {
-  String temperatura = "37";
-  String spo2 = "20";
-  String bpm = "56";
+  String temperatura = "--";
+  String spo2 = "--";
+  String bpm = "--";
   double maxTemp = -1;
   DeviceController? controller;
 
@@ -41,68 +42,73 @@ class _MetricsState extends State<Metrics> {
       });
       controller!.dispose();
       if (data.confidence! > 90 && data.status! > 2) {
-        submitData(temperatura, spo2, bpm);
+        submitData(temperatura, spo2, bpm, data.confidence!);
       }
     });
   }
 
-  void submitData(String temperatura, String spo2, String bpm) async {
-    print("$temperatura $spo2 $bpm");
+  void submitData(
+      String temperatura, String spo2, String bpm, int confidence) async {
+    final result = await sendecovig(double.tryParse(temperatura) ?? -1,
+        int.tryParse(spo2) ?? -1, int.tryParse(bpm) ?? -1, confidence);
+    print(result);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-              child: Container(
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                child: Container(
+                  child: Text(
+                    temperatura,
+                    style: TextStyle(color: Colors.black, fontSize: 30),
+                  ),
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.all(20.0),
                 child: Text(
-                  temperatura,
+                  "Temperatura",
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+                child: Text(
+                  spo2 + "%",
                   style: TextStyle(color: Colors.black, fontSize: 30),
                 ),
               ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(20.0),
-              child: Text(
-                "Temperatura",
-                style: TextStyle(fontSize: 20),
+              const Padding(
+                padding: EdgeInsets.all(20.0),
+                child: Text(
+                  "SPO2",
+                  style: TextStyle(fontSize: 20),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
-              child: Text(
-                spo2 + "%",
-                style: TextStyle(color: Colors.black, fontSize: 30),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+                child: Text(
+                  bpm,
+                  style: const TextStyle(color: Colors.black, fontSize: 30),
+                ),
               ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(20.0),
-              child: Text(
-                "SPO2",
-                style: TextStyle(fontSize: 20),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
-              child: Text(
-                bpm,
-                style: const TextStyle(color: Colors.black, fontSize: 30),
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(20.0),
-              child: Text(
-                "Batimento Cardiaco",
-                style: TextStyle(fontSize: 20),
-              ),
-            )
-          ],
+              const Padding(
+                padding: EdgeInsets.all(20.0),
+                child: Text(
+                  "Batimento Cardiaco",
+                  style: TextStyle(fontSize: 20),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -1,9 +1,9 @@
 import 'package:enzo/home_page.dart';
+import 'package:enzo/workout.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
   App({Key? key}) : super(key: key);
-
 
   // This widget is the root of your application.
   @override
@@ -11,8 +11,8 @@ class App extends StatelessWidget {
     return const MaterialApp(
       title: 'Hackthon',
       debugShowCheckedModeBanner: false,
-     // home: const HomePage(title: 'HACKATHON', url: ''),
-      home: HomePage(),
+      // home: const HomePage(title: 'HACKATHON', url: ''),
+      home: Workout(),
     );
   }
 }

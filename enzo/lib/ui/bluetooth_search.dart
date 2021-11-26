@@ -9,6 +9,7 @@ import 'package:location/location.dart';
 import 'package:bluetooth_enable/bluetooth_enable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:scientisst_sense/scientisst_sense.dart';
 
 class BluetoothSearch extends StatefulWidget {
   const BluetoothSearch(this.onAdd, {Key? key}) : super(key: key);
