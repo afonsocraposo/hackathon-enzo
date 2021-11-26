@@ -1,4 +1,5 @@
 import 'package:enzo/metrics_page.dart';
+import 'package:enzo/settings.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -29,9 +30,11 @@ class _HomePageState extends State<HomePage> {
                 child: Padding(
                   padding: const EdgeInsets.all(70.0),
                   child: ElevatedButton(
-                    onPressed: () {  Navigator.push(
-                        context,
-                      MaterialPageRoute(builder: (context) => const Metrics()));
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Metrics()));
                     },
                     child: const SizedBox(
                         width: double.infinity,
@@ -58,7 +61,13 @@ class _HomePageState extends State<HomePage> {
                       Icons.settings,
                       color: Colors.grey,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const Settings(),
+                        ),
+                      );
+                    },
                   )
                 ],
               ),

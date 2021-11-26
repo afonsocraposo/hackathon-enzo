@@ -1,3 +1,5 @@
+import 'package:enzo/utils/deviceController.dart';
+import 'package:enzo/utils/shared_pref.dart';
 import 'package:flutter/material.dart';
 
 class Metrics extends StatefulWidget {
@@ -8,9 +10,45 @@ class Metrics extends StatefulWidget {
 }
 
 class _MetricsState extends State<Metrics> {
-  String temperatura = "37º";
+  String temperatura = "37";
   String spo2 = "20";
   String bpm = "56";
+  double maxTemp = -1;
+  DeviceController? controller;
+
+  @override
+  void initState() {
+    super.initState();
+    initDevice();
+  }
+
+  initDevice() async {
+    final address = await SharedPref.read("ecovig");
+    controller = DeviceController(address);
+    bool connected = false;
+    while (!connected) {
+      connected = await controller!.connect();
+    }
+    controller!.listen((data) {
+      final temperature = data.temperature!;
+      if (temperature > maxTemp) {
+        maxTemp = temperature;
+      }
+      setState(() {
+        temperatura = "$maxTemp";
+        spo2 = "${data.saturation}";
+        bpm = "${data.heartRate}";
+      });
+      controller!.dispose();
+      if (data.confidence! > 90 && data.status! > 2) {
+        submitData(temperatura, spo2, bpm);
+      }
+    });
+  }
+
+  void submitData(String temperatura, String spo2, String bpm) async {
+    print("$temperatura $spo2 $bpm");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +102,6 @@ class _MetricsState extends State<Metrics> {
                 style: TextStyle(fontSize: 20),
               ),
             )
-
           ],
         ),
       ),
