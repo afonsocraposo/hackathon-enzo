@@ -62,7 +62,7 @@ class _MetricsState extends State<Metrics> {
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
               child: Container(
                 child: Text(
-                  temperatura,
+                  temperatura+"ºC" + " 🌡️",
                   style: TextStyle(color: Colors.black, fontSize: 30),
                 ),
               ),
@@ -77,21 +77,21 @@ class _MetricsState extends State<Metrics> {
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
               child: Text(
-                spo2 + "%",
+                spo2 + "%" + " 💨",
                 style: TextStyle(color: Colors.black, fontSize: 30),
               ),
             ),
             const Padding(
               padding: EdgeInsets.all(20.0),
               child: Text(
-                "SPO2",
+                "SPO2"  ,
                 style: TextStyle(fontSize: 20),
               ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
               child: Text(
-                bpm,
+                bpm + "  ♥",
                 style: const TextStyle(color: Colors.black, fontSize: 30),
               ),
             ),
