@@ -15,7 +15,7 @@ class _WarningPageState extends State<WarningPage> {
     // TODO: implement initState
     super.initState();
     Fluttertoast.showToast(
-        msg: "Nao deve fazer desporto!",
+        msg: "Não deve fazer exercício!",
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,

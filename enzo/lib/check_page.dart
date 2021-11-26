@@ -16,7 +16,7 @@ class _CheckPageState extends State<CheckPage> {
     // TODO: implement initState
     super.initState();
     Fluttertoast.showToast(
-        msg: "Esta tudo OK",
+        msg: "Está tudo OK",
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,

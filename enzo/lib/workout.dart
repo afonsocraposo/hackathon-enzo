@@ -44,7 +44,13 @@ class _WorkoutState extends State<Workout> {
     //final address = await SharedPref.read("scientisst");
     final address = "08:3A:F2:49:AC:BE";
     sense = Sense(address);
-    await sense!.connect();
+    bool connected = false;
+    while (!connected) {
+      try {
+        await sense!.connect();
+      } catch (e) {}
+      connected = sense!.connected;
+    }
     _start = DateTime.now();
     x.add(_start!);
     y.add(0);
